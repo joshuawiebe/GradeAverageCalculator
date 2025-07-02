@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade Average Calculator</title>
+</head>
+<body>
+  <h1>Grade Average Calculator</h1>
+  <p>Calculate the average of your Grades</p>
+  <div id="subjectsDiv">
+    <!--Container for each subject(?table?)-->
+  </div>
+  <form id="newSubjectForm">
+    <input type="text" list="subjects" name="addSubject" id="addSubjectInput" placeholder="e.g. Math, English...">
+    <datalist id="subjects">
+      <option value="Math"></option>
+      <option value="English"></option>
+      <option value="French"></option>
+      <option value="German"></option>
+      <option value="Biology"></option>
+      <option value="Physics"></option>
+      <option value="History"></option>
+    </datalist>
+    <input type="number" list="grades" name="addGrade" id="addGradeInput" placeholder="2">
+    <datalist id="grades">
+      <option value="1"></option>
+      <option value="2"></option>
+      <option value="3"></option>
+      <option value="4"></option>
+      <option value="5"></option>
+      <option value="6"></option>
+    </datalist>
+    <button id="addSubject" type="submit">Add new Subject</button>
+  </form>
+  <script>
+    const grades = [];
+
+    const addSubjectFrom = document.getElementById('newSubjectForm');
+    const subjectsDiv = document.getElementById('subjectsDiv');
+    const newSubject = document.getElementById('addSubjectInput');
+    const newGrade = document.getElementById('addGradeInput');
+
+    addSubjectFrom.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const subject = newSubject.value;
+      const subjectGrade = newGrade.value;
+
+      if (!subject || isNaN(subjectGrade)) {
+        alert('Please enter a valid subject or grade.')
+        return;
+      }
+
+      grades.push({ subject: subject, grade: subjectGrade });
+
+      newSubject.value = '';
+      newGrade.value = '';
+
+      updateList();
+    })
+
+    function updateList() {
+      subjectsDiv.innerHTML = ''; // Clear old content
+
+      grades.forEach(entry => {
+        const p = document.createElement('p');
+        p.textContent = entry.subject + ': ' + entry.grade;
+        subjectsDiv.appendChild(p);
+
+        /* IDEA: Add a remove button behind every object */
+      });
+
+      const sum = grades.reduce((acc, cur) => acc + parseFloat(cur.grade), 0);
+      const avg = (sum / grades.length) .toFixed(2);
+      const avgP = document.createElement('p');
+      avgP.innerHTML = '<strong>' + 'Average Grade: ' + avg + '</strong>';
+      subjectsDiv.appendChild(avgP);
+      console.log(avg);
+    }
+
+    window.onload = () => {
+      newSubject.value = '';
+      newGrade.value = '';
+    }
+  </script>
+</body>
+</html>
