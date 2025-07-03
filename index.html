@@ -30,7 +30,7 @@
       style="display:none; margin-top:0.5em;"
     >
 
-    <input type="number" list="grades" name="addGrade" id="addGradeInput" placeholder="2">
+    <input type="number" list="grades" name="addGrade" id="addGradeInput" placeholder="2" required>
     <datalist id="grades">
       <option value="1"></option>
       <option value="2"></option>
@@ -54,7 +54,9 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const subject = (subjectSelect.value === 'custom');
+      const subject = (subjectSelect.value === 'custom')
+        ? customInput.value.trim()
+        : subjectSelect.value;
       const grade = parseFloat(gradeInput.value);
 
       if (!subject) {
@@ -66,11 +68,10 @@
       }
 
       grades.push({ subject, grade });
-
-      newSubject.value = '';
-      newGrade.value = '';
-
       updateList();
+
+      form.reset();
+      customInput.style.display = 'none';
     })
 
     function updateList() {
