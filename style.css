@@ -1,169 +1,228 @@
-/* Reset & base */
+/*───────────────────────────────────────────────────────────────────────────────
+  style.css — Grade Average Calculator (Click-Counter–inspired)
+  Accent fixed & scrolling disabled
+───────────────────────────────────────────────────────────────────────────────*/
+
+/*── 1) Font Import ───────────────────────────────────────────────────────────*/
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;600;700;800&display=swap');
+
+/*── 2) Theme Variables ───────────────────────────────────────────────────────*/
+:root {
+  --bg-light:    #f0f2f5;
+  --bg-dark:     #1f2428;
+  --card-light:  #ffffff;
+  --card-dark:   #2b2f34;
+  --text-light:  #2e3338;
+  --text-dark:   #e1e3e5;
+  --accent:      #0066cc;   /* primary accent blue */
+  --accent-dark: #004a99;   /* hover/active state */
+}
+[data-theme="light"] {
+  --bg:           var(--bg-light);
+  --card:         var(--card-light);
+  --text:         var(--text-light);
+  --button-bg:    var(--accent);
+  --button-hover: var(--accent-dark);
+}
+[data-theme="dark"] {
+  --bg:           var(--bg-dark);
+  --card:         var(--card-dark);
+  --text:         var(--text-dark);
+  --button-bg:    var(--accent-dark);
+  --button-hover: #3385ff;
+}
+
+/*── 3) Base Reset ────────────────────────────────────────────────────────────*/
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  margin: 0; padding: 0;
+  font-family: 'Kumbh Sans', sans-serif;
 }
-
+html, body {
+  overflow: hidden;      /* disables scrolling */
+  height: 100%;          /* ensure overflow rule applies */
+}
 body {
-  background: #fafbfc;
-  color: #2e3440;
-  line-height: 1.6;
-  padding: 3rem 2rem;
+  background: var(--bg);
+  color:      var(--text);
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  font-weight: 400;
-  font-size: 16px;
+  display:    grid;
+  place-items: center;
+  padding:    1rem;
+  transition: background 0.3s, color 0.3s;
 }
 
-/* Typography */
+/*── 4) Container Layout ─────────────────────────────────────────────────────*/
+.container {
+  width:       100%;
+  max-width:   360px;
+  background:  var(--card);
+  border-radius: 16px;
+  box-shadow:    0 16px 40px rgba(0,0,0,0.1);
+  overflow:      hidden;
+  display:       flex;
+  flex-direction: column;
+  gap:            1.5rem;
+  padding:        2rem;
+  transition:     background 0.3s;
+}
+
+/*── 5) Heading & Description ────────────────────────────────────────────────*/
 h1 {
-  font-weight: 800;
-  font-size: 2.75rem;
-  color: #3b4252;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  font-size:    1.75rem;
+  font-weight:  800;
+  text-align:   center;
+  color:        var(--text);
+}
+p.description {
+  text-align:   center;
+  font-weight:  500;
+  color:        var(--text);
 }
 
-p {
-  color: #616e87;
-  margin-bottom: 2rem;
-  max-width: 400px;
-}
-
-/* Container for subjects */
-#subjectsDiv {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 1.75rem 2rem;
-  box-shadow:
-    0 8px 20px rgb(100 100 111 / 0.07),
-    0 6px 6px rgb(0 0 0 / 0.06);
-  max-width: 420px;
-  width: 100%;
-  margin-bottom: 2.5rem;
-}
-
-/* Each subject entry */
-#subjectsDiv > div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid #e4e9f0;
-  transition: background-color 0.25s ease;
-  border-radius: 8px;
-}
-
-#subjectsDiv > div:last-child {
-  margin-bottom: 0;
-  border-bottom: none;
-}
-
-#subjectsDiv span {
-  font-weight: 600;
-  font-size: 1.05rem;
-  color: #2e3440;
-  user-select: none;
-}
-
-/* Buttons on entries */
-#subjectsDiv button {
-  background: transparent;
-  border: none;
-  color: #5e81ac;
-  font-weight: 600;
-  cursor: pointer;
-  transition: color 0.3s ease, background-color 0.3s ease;
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  user-select: none;
-}
-
-#subjectsDiv button:hover {
-  color: #2e3440;
-  background-color: #d8e2fc;
-}
-
-/* Form container */
+/*── 6) Form Elements ────────────────────────────────────────────────────────*/
 form {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 2rem 2.5rem;
-  box-shadow:
-    0 10px 30px rgb(100 100 111 / 0.08),
-    0 8px 8px rgb(0 0 0 / 0.06);
-  max-width: 420px;
-  width: 100%;
-  display: grid;
-  gap: 1.5rem;
-  user-select: none;
+  display:        flex;
+  flex-direction: column;
+  gap:            1rem;
 }
-
-/* Inputs and select */
+select,
 input[type="text"],
-input[type="number"],
-select {
-  padding: 0.65rem 1rem;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  border: 1.8px solid #cbd5e1;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  width: 100%;
-  outline-offset: 3px;
-  color: #2e3440;
-  font-weight: 500;
-  user-select: text;
+input[type="number"] {
+  padding:        0.75rem 1rem;
+  border:         none;
+  border-radius:  8px;
+  background:     var(--bg);
+  box-shadow:     inset 0 2px 6px rgba(0,0,0,0.05);
+  font-size:      1rem;
+  color:          var(--text);
+  transition:     box-shadow 0.2s;
 }
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-select:focus {
-  border-color: #5e81ac;
-  box-shadow: 0 0 8px #5e81acaa;
-  outline: none;
+select:focus,
+input:focus {
+  outline:        none;
+  box-shadow:     0 0 0 3px var(--accent)33;
 }
-
-/* Submit button */
-button[type="submit"] {
-  padding: 0.85rem;
-  background-color: #5e81ac;
-  color: #eceff4;
-  font-weight: 700;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  transition: background-color 0.35s ease;
-  user-select: none;
-}
-
-button[type="submit"]:hover {
-  background-color: #3b4252;
-  box-shadow: 0 4px 12px #3b4252cc;
-}
-
-/* Custom input spacing */
+/* Custom input toggle */
 #customSubjectInput {
+  display: none;
   margin-top: 0.5rem;
 }
 
-/* Responsive for mobile */
-@media (max-width: 480px) {
-  body {
-    padding: 2rem 1rem;
+/*── 7) “Add” Button with Ripple ─────────────────────────────────────────────*/
+button[type="submit"] {
+  position:       relative;
+  overflow:       hidden;
+  padding:        1rem;
+  font-size:      1.1rem;
+  font-weight:    600;
+  background:     var(--button-bg) !important; /* ensure visibility */
+  color:          #ffffff   !important;
+  border:         none;
+  border-radius:  12px;
+  cursor:         pointer;
+  transition:     background 0.3s, transform 0.1s;
+  user-select:    none;
+  z-index:        100;   /* above overlapping containers */
+}
+button[type="submit"]::after {
+  content: '';
+  position: absolute;
+  width:    200%; height: 200%;
+  top:      50%; left:   50%;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  transform:      translate(-50%,-50%) scale(0);
+  opacity:        0;
+  transition:     transform 0.5s ease-out, opacity 1s ease-out;
+  pointer-events: none;
+}
+button[type="submit"]:active {
+  transform: scale(0.98);
+}
+button[type="submit"]:active::after {
+  transform: translate(-50%,-50%) scale(1);
+  opacity:   1;
+  transition: 0s;
+}
+button[type="submit"]:hover {
+  background: var(--button-hover);
+}
+/* Sticky on small screens */
+@media (max-width: 400px) {
+  button[type="submit"] {
+    position: sticky;
+    bottom:   1rem;
+    width:    calc(100% - 2rem);
+    margin:   0 auto;
   }
+}
 
-  #subjectsDiv,
-  form {
-    max-width: 100%;
+/*── 8) Results List ─────────────────────────────────────────────────────────*/
+#subjectsDiv {
+  display:        flex;
+  flex-direction: column;
+  gap:            1rem;
+}
+#subjectsDiv > div {
+  position:       relative;
+  display:        flex;
+  justify-content: space-between;
+  align-items:     center;
+  padding:         0.75rem 1rem;
+  border-radius:   8px;
+  background:      var(--bg);
+  box-shadow:      inset 0 2px 4px rgba(0,0,0,0.05);
+  transition:      opacity 0.3s, transform 0.3s;
+}
+#subjectsDiv > div.removing {
+  opacity:   0;
+  transform: translateX(-20px);
+}
+#subjectsDiv span {
+  font-weight: 500;
+  color:       var(--text);
+}
+/* Edit / Remove buttons */
+#subjectsDiv button {
+  background: none;
+  border:     none;
+  color:      var(--button-bg);
+  font-weight: 600;
+  cursor:      pointer;
+  padding:     0.25rem 0.5rem;
+  transition:  color 0.2s;
+}
+#subjectsDiv button:hover {
+  color: var(--button-hover);
+}
+/* Average line */
+#subjectsDiv p.average {
+  text-align:   center;
+  font-size:    1.25rem;
+  font-weight:  700;
+  color:        var(--text);
+  margin-top:   1rem;
+}
+
+/*── 9) Two-Column Layout on Desktop ─────────────────────────────────────────*/
+@media (min-width: 768px) {
+  body {
+    display:        flex;
+    justify-content: center;
+    align-items:    flex-start;
+    padding:        2rem;
+  }
+  .container {
+    max-width:      900px;
+    flex-direction: row;
+    gap:            2rem;
+  }
+  .container main,
+  .container aside {
+    flex: 1;
+  }
+  h1, p.description {
+    text-align: left;
   }
 }
