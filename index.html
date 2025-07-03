@@ -13,7 +13,7 @@
 
     <div id="subjectsDiv"></div>
 
-    <form id="newSubjectForm">
+    <form id="newSubjectForm"> 
       <select id="subjectSelect" required>
         <option value="" disabled selected>Select subject…</option>
         <option value="Math">Math</option>
@@ -28,7 +28,7 @@
 
       <input type="text" id="customSubjectInput" placeholder="Type custom subject…" style="display:none; margin-top:0.5em;">
 
-      <input type="number" list="grades" name="addGrade" id="addGradeInput" placeholder="2" required>
+      <input type="number" list="grades" name="addGrade" id="addGradeInput" placeholder="2" min="1" max="6" step="1" required>
       <datalist id="grades">
         <option value="1">
         <option value="2">

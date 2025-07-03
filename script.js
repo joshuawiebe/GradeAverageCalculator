@@ -1,4 +1,4 @@
-const grades = [];
+const grades = JSON.parse(localStorage.getItem('grades') || '[]');
 
 // ========== DOM ELEMENTS ==========
 
@@ -52,7 +52,7 @@ form.addEventListener('submit', (e) => {
     return;
     }
 
-    grades.push({ subject, grade: Math.round(grade) });
+    grades.push({ subject, grade: parseFloat(gradeInput.value) });
     updateList();
     updateAvailableSubjects();
     saveState();
