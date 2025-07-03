@@ -1,228 +1,220 @@
 /*───────────────────────────────────────────────────────────────────────────────
-  style.css — Grade Average Calculator (Click-Counter–inspired)
-  Accent fixed & scrolling disabled
-───────────────────────────────────────────────────────────────────────────────*/
+  style.css — Grade Average Calculator
+  Color scheme from Click-Counter: https://joshuawiebe.github.io/click-counter/
+  ───────────────────────────────────────────────────────────────────────────────*/
 
-/*── 1) Font Import ───────────────────────────────────────────────────────────*/
-@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;600;700;800&display=swap');
-
-/*── 2) Theme Variables ───────────────────────────────────────────────────────*/
-:root {
-  --bg-light:    #f0f2f5;
-  --bg-dark:     #1f2428;
-  --card-light:  #ffffff;
-  --card-dark:   #2b2f34;
-  --text-light:  #2e3338;
-  --text-dark:   #e1e3e5;
-  --accent:      #0066cc;   /* primary accent blue */
-  --accent-dark: #004a99;   /* hover/active state */
-}
-[data-theme="light"] {
-  --bg:           var(--bg-light);
-  --card:         var(--card-light);
-  --text:         var(--text-light);
-  --button-bg:    var(--accent);
-  --button-hover: var(--accent-dark);
-}
-[data-theme="dark"] {
-  --bg:           var(--bg-dark);
-  --card:         var(--card-dark);
-  --text:         var(--text-dark);
-  --button-bg:    var(--accent-dark);
-  --button-hover: #3385ff;
-}
-
-/*── 3) Base Reset ────────────────────────────────────────────────────────────*/
-* {
-  box-sizing: border-box;
-  margin: 0; padding: 0;
-  font-family: 'Kumbh Sans', sans-serif;
-}
+/*── 1) Base Reset ─────────────────────────────────────────────────────────────*/
 html, body {
-  overflow: hidden;      /* disables scrolling */
-  height: 100%;          /* ensure overflow rule applies */
+  overflow: hidden; /* no scrollbars */
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 body {
-  background: var(--bg);
-  color:      var(--text);
+  font-family: Arial, sans-serif;
+  background: #fff;            /* light background */
+  color:      #111;            /* light text */
+  display:    flex;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
-  display:    grid;
-  place-items: center;
-  padding:    1rem;
   transition: background 0.3s, color 0.3s;
 }
 
-/*── 4) Container Layout ─────────────────────────────────────────────────────*/
+/* Dark Mode */
+body.darkmode {
+  background: #181c24;         /* dark page bg */
+  color:      #f5f5f5;         /* light text on dark */
+}
+
+/*── 2) Container “Card” ────────────────────────────────────────────────────*/
 .container {
-  width:       100%;
-  max-width:   360px;
-  background:  var(--card);
-  border-radius: 16px;
-  box-shadow:    0 16px 40px rgba(0,0,0,0.1);
-  overflow:      hidden;
+  background: rgba(255,255,255,0.97); /* light card */
+  border-radius: 18px;
+  box-shadow:    0 8px 32px rgba(0,0,0,0.12);
+  padding:       32px 24px 24px;
+  width:         320px;
   display:       flex;
   flex-direction: column;
-  gap:            1.5rem;
-  padding:        2rem;
-  transition:     background 0.3s;
+  align-items:   center;
+  gap:           1.5rem;
+  position:      relative;
+  transition:    background 0.3s, box-shadow 0.3s;
 }
 
-/*── 5) Heading & Description ────────────────────────────────────────────────*/
+/* Dark Card */
+body.darkmode .container {
+  background: rgba(30,30,30,0.98);
+  box-shadow: 0 0 45px rgb(1,78,120);
+}
+
+/*── 3) Heading & Description ────────────────────────────────────────────────*/
 h1 {
-  font-size:    1.75rem;
-  font-weight:  800;
-  text-align:   center;
-  color:        var(--text);
+  font-size: 2.5rem;
+  margin:    0;
+  letter-spacing: 2px;
+  transition: color 0.3s;
 }
 p.description {
-  text-align:   center;
-  font-weight:  500;
-  color:        var(--text);
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+  transition: color 0.3s;
 }
 
-/*── 6) Form Elements ────────────────────────────────────────────────────────*/
+/* Dark text overrides */
+body.darkmode h1,
+body.darkmode p.description {
+  color: #f5f5f5;
+}
+
+/*── 4) Form Elements ────────────────────────────────────────────────────────*/
 form {
-  display:        flex;
+  width: 100%;
+  display: flex;
   flex-direction: column;
-  gap:            1rem;
+  gap: 1rem;
 }
 select,
 input[type="text"],
 input[type="number"] {
-  padding:        0.75rem 1rem;
-  border:         none;
-  border-radius:  8px;
-  background:     var(--bg);
-  box-shadow:     inset 0 2px 6px rgba(0,0,0,0.05);
-  font-size:      1rem;
-  color:          var(--text);
-  transition:     box-shadow 0.2s;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+  font-size: 1rem;
+  color: #111;
+  transition: background 0.3s, box-shadow 0.2s, color 0.3s;
 }
 select:focus,
 input:focus {
-  outline:        none;
-  box-shadow:     0 0 0 3px var(--accent)33;
-}
-/* Custom input toggle */
-#customSubjectInput {
-  display: none;
-  margin-top: 0.5rem;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.3);
 }
 
-/*── 7) “Add” Button with Ripple ─────────────────────────────────────────────*/
-button[type="submit"] {
-  position:       relative;
-  overflow:       hidden;
-  padding:        1rem;
-  font-size:      1.1rem;
-  font-weight:    600;
-  background:     var(--button-bg) !important; /* ensure visibility */
-  color:          #ffffff   !important;
-  border:         none;
-  border-radius:  12px;
-  cursor:         pointer;
-  transition:     background 0.3s, transform 0.1s;
-  user-select:    none;
-  z-index:        100;   /* above overlapping containers */
+/* Dark inputs */
+body.darkmode select,
+body.darkmode input[type="text"],
+body.darkmode input[type="number"] {
+  background: #2e2b2a;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+  color: #f5f5f5;
 }
-button[type="submit"]::after {
-  content: '';
-  position: absolute;
-  width:    200%; height: 200%;
-  top:      50%; left:   50%;
-  background: rgba(255,255,255,0.4);
-  border-radius: 50%;
-  transform:      translate(-50%,-50%) scale(0);
-  opacity:        0;
-  transition:     transform 0.5s ease-out, opacity 1s ease-out;
-  pointer-events: none;
+
+/* Toggle custom input */
+#customSubjectInput {
+  display: none;
+}
+
+/*── 5) “Add new Subject” Button ─────────────────────────────────────────────*/
+button[type="submit"] {
+  width: 80%;
+  padding: 14px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0,123,255,0.08);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin: 0 auto;
+}
+button[type="submit"]:hover {
+  background: linear-gradient(90deg, #0056b3 0%, #00aaff 100%);
+  transform: scale(1.03);
 }
 button[type="submit"]:active {
   transform: scale(0.98);
 }
-button[type="submit"]:active::after {
-  transform: translate(-50%,-50%) scale(1);
-  opacity:   1;
-  transition: 0s;
+
+/* Dark button */
+body.darkmode button[type="submit"] {
+  background: linear-gradient(90deg, #222 0%, #444 100%);
 }
-button[type="submit"]:hover {
-  background: var(--button-hover);
+body.darkmode button[type="submit"]:hover {
+  background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
 }
+
 /* Sticky on small screens */
 @media (max-width: 400px) {
   button[type="submit"] {
     position: sticky;
-    bottom:   1rem;
-    width:    calc(100% - 2rem);
-    margin:   0 auto;
+    bottom: 16px;
   }
 }
 
-/*── 8) Results List ─────────────────────────────────────────────────────────*/
+/*── 6) Results List ─────────────────────────────────────────────────────────*/
 #subjectsDiv {
-  display:        flex;
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
   flex-direction: column;
-  gap:            1rem;
+  gap: 1rem;
 }
 #subjectsDiv > div {
-  position:       relative;
-  display:        flex;
+  display: flex;
   justify-content: space-between;
-  align-items:     center;
-  padding:         0.75rem 1rem;
-  border-radius:   8px;
-  background:      var(--bg);
-  box-shadow:      inset 0 2px 4px rgba(0,0,0,0.05);
-  transition:      opacity 0.3s, transform 0.3s;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+  transition: background 0.3s, box-shadow 0.3s;
 }
-#subjectsDiv > div.removing {
-  opacity:   0;
-  transform: translateX(-20px);
+body.darkmode #subjectsDiv > div {
+  background: #2e2b2a;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
 }
 #subjectsDiv span {
-  font-weight: 500;
-  color:       var(--text);
+  font-size: 1rem;
+  font-weight: 600;
 }
+
 /* Edit / Remove buttons */
 #subjectsDiv button {
   background: none;
-  border:     none;
-  color:      var(--button-bg);
+  border: none;
+  color: #007bff;
   font-weight: 600;
-  cursor:      pointer;
-  padding:     0.25rem 0.5rem;
-  transition:  color 0.2s;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0.25rem 0.5rem;
 }
 #subjectsDiv button:hover {
-  color: var(--button-hover);
+  color: #0056b3;
 }
-/* Average line */
-#subjectsDiv p.average {
-  text-align:   center;
-  font-size:    1.25rem;
-  font-weight:  700;
-  color:        var(--text);
-  margin-top:   1rem;
+body.darkmode #subjectsDiv button {
+  color: #00c6ff;
+}
+body.darkmode #subjectsDiv button:hover {
+  color: #3385ff;
 }
 
-/*── 9) Two-Column Layout on Desktop ─────────────────────────────────────────*/
+/* Average line */
+#subjectsDiv p.average {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/*── 7) Layout at ≥768px ─────────────────────────────────────────────────────*/
 @media (min-width: 768px) {
   body {
-    display:        flex;
-    justify-content: center;
-    align-items:    flex-start;
-    padding:        2rem;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 2rem;
   }
   .container {
-    max-width:      900px;
-    flex-direction: row;
-    gap:            2rem;
+    margin-right: 2rem;
+    width: 320px;
   }
-  .container main,
-  .container aside {
-    flex: 1;
-  }
-  h1, p.description {
-    text-align: left;
+  #subjectsDiv {
+    max-width: 320px;
   }
 }
