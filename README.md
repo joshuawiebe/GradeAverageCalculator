@@ -3,7 +3,7 @@ A small calculator application to get the average of your grades
 
 ## Ideas / TODOs
 
-- [x] **Dark Mode:**  
+- [x] **Dark Mode: (Settings)**  
   Add a toggle to switch between light and dark themes for better usability at night.
 
 - [ ] **PDF Generator (Zeugnis Download):**  
