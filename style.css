@@ -1,48 +1,50 @@
 /*───────────────────────────────────────────────────────────────────────────────
   style.css — Grade Average Calculator
-  Color scheme from Click-Counter: https://joshuawiebe.github.io/click-counter/
   ───────────────────────────────────────────────────────────────────────────────*/
 
 /*── 1) Base Reset ─────────────────────────────────────────────────────────────*/
 html, body {
-  overflow: hidden; /* no scrollbars */
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden; /* disables scrolling */
+  box-sizing: border-box;
 }
 body {
   font-family: Arial, sans-serif;
-  background: #fff;            /* light background */
-  color:      #111;            /* light text */
-  display:    flex;
+  background: #fff;
+  color: #111;
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
   transition: background 0.3s, color 0.3s;
 }
 
 /* Dark Mode */
 body.darkmode {
-  background: #181c24;         /* dark page bg */
-  color:      #f5f5f5;         /* light text on dark */
+  background: #181c24;
+  color: #f5f5f5;
 }
 
 /*── 2) Container “Card” ────────────────────────────────────────────────────*/
 .container {
-  background: rgba(255,255,255,0.97); /* light card */
+  background: rgba(255,255,255,0.97);
   border-radius: 18px;
-  box-shadow:    0 8px 32px rgba(0,0,0,0.12);
-  padding:       32px 24px 24px;
-  width:         320px;
-  display:       flex;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  padding: 32px 16px 24px;
+  width: 100%;
+  max-width: 370px;
+  display: flex;
   flex-direction: column;
-  align-items:   center;
-  gap:           1.5rem;
-  position:      relative;
-  transition:    background 0.3s, box-shadow 0.3s;
+  align-items: center;
+  gap: 1.5rem;
+  transition: background 0.3s, box-shadow 0.3s;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-/* Dark Card */
 body.darkmode .container {
   background: rgba(30,30,30,0.98);
   box-shadow: 0 0 45px rgb(1,78,120);
@@ -50,19 +52,19 @@ body.darkmode .container {
 
 /*── 3) Heading & Description ────────────────────────────────────────────────*/
 h1 {
-  font-size: 2.5rem;
-  margin:    0;
+  font-size: 2.2rem;
+  margin: 0;
   letter-spacing: 2px;
   transition: color 0.3s;
+  text-align: center;
 }
 p.description {
   margin: 0;
   font-size: 1rem;
   color: #555;
   transition: color 0.3s;
+  text-align: center;
 }
-
-/* Dark text overrides */
 body.darkmode h1,
 body.darkmode p.description {
   color: #f5f5f5;
@@ -74,11 +76,13 @@ form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  align-items: center;
 }
 select,
 input[type="text"],
 input[type="number"] {
   width: 100%;
+  max-width: 300px;
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 10px;
@@ -87,14 +91,14 @@ input[type="number"] {
   font-size: 1rem;
   color: #111;
   transition: background 0.3s, box-shadow 0.2s, color 0.3s;
+  margin: 0 auto;
+  display: block;
 }
 select:focus,
 input:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0,123,255,0.3);
 }
-
-/* Dark inputs */
 body.darkmode select,
 body.darkmode input[type="text"],
 body.darkmode input[type="number"] {
@@ -102,15 +106,14 @@ body.darkmode input[type="number"] {
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
   color: #f5f5f5;
 }
-
-/* Toggle custom input */
 #customSubjectInput {
   display: none;
 }
 
 /*── 5) “Add new Subject” Button ─────────────────────────────────────────────*/
 button[type="submit"] {
-  width: 80%;
+  width: 100%;
+  max-width: 300px;
   padding: 14px 0;
   font-size: 1.1rem;
   font-weight: 600;
@@ -122,6 +125,7 @@ button[type="submit"] {
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
   margin: 0 auto;
+  display: block;
 }
 button[type="submit"]:hover {
   background: linear-gradient(90deg, #0056b3 0%, #00aaff 100%);
@@ -130,41 +134,43 @@ button[type="submit"]:hover {
 button[type="submit"]:active {
   transform: scale(0.98);
 }
-
-/* Dark button */
 body.darkmode button[type="submit"] {
   background: linear-gradient(90deg, #222 0%, #444 100%);
 }
 body.darkmode button[type="submit"]:hover {
   background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
 }
-
-/* Sticky on small screens */
 @media (max-width: 400px) {
   button[type="submit"] {
     position: sticky;
     bottom: 16px;
+    width: 90%;
+    left: 5%;
   }
 }
 
 /*── 6) Results List ─────────────────────────────────────────────────────────*/
 #subjectsDiv {
   width: 100%;
-  margin-top: 1rem;
+  max-width: 360px;
+  margin: 1rem auto 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  align-items: center;
 }
 #subjectsDiv > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  max-width: 320px;
   padding: 0.75rem 1rem;
   border-radius: 10px;
   background: #fff;
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
   transition: background 0.3s, box-shadow 0.3s;
+  margin: 0 auto;
 }
 body.darkmode #subjectsDiv > div {
   background: #2e2b2a;
@@ -174,8 +180,6 @@ body.darkmode #subjectsDiv > div {
   font-size: 1rem;
   font-weight: 600;
 }
-
-/* Edit / Remove buttons */
 #subjectsDiv button {
   background: none;
   border: none;
@@ -194,8 +198,6 @@ body.darkmode #subjectsDiv button {
 body.darkmode #subjectsDiv button:hover {
   color: #3385ff;
 }
-
-/* Average line */
 #subjectsDiv p.average {
   font-size: 1.25rem;
   font-weight: 700;
@@ -203,18 +205,30 @@ body.darkmode #subjectsDiv button:hover {
   margin-top: 1rem;
 }
 
-/*── 7) Layout at ≥768px ─────────────────────────────────────────────────────*/
-@media (min-width: 768px) {
-  body {
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 2rem;
-  }
+/*── 7) Responsive Layout ────────────────────────────────────────────────────*/
+@media (min-width: 600px) {
   .container {
-    margin-right: 2rem;
-    width: 320px;
+    max-width: 500px;
+    padding: 40px 32px 32px;
   }
   #subjectsDiv {
-    max-width: 320px;
+    max-width: 480px;
+  }
+}
+@media (min-width: 900px) {
+  body {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    padding: 0;
+  }
+  .container {
+    max-width: 420px;
+    margin: 0 2rem 0 0;
+  }
+  #subjectsDiv {
+    max-width: 420px;
+    margin: 0;
   }
 }
