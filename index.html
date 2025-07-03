@@ -9,19 +9,27 @@
   <h1>Grade Average Calculator</h1>
   <p>Calculate the average of your Grades</p>
   <div id="subjectsDiv">
-    <!--Container for each subject(?table?)-->
   </div>
   <form id="newSubjectForm">
-    <input type="text" list="subjects" name="addSubject" id="addSubjectInput" placeholder="e.g. Math, English...">
-    <datalist id="subjects">
-      <option value="Math"></option>
-      <option value="English"></option>
-      <option value="French"></option>
-      <option value="German"></option>
-      <option value="Biology"></option>
-      <option value="Physics"></option>
-      <option value="History"></option>
-    </datalist>
+    <select id="subjectSelect" required>
+      <option value="" disabled selected>Select subject…</option>
+      <option value="Math">Math</option>
+      <option value="English">English</option>
+      <option value="French">French</option>
+      <option value="German">German</option>
+      <option value="Biology">Biology</option>
+      <option value="Physics">Physics</option>
+      <option value="History">History</option>
+      <option value="other">Custom</option>
+    </select>
+
+    <input
+      type="text"
+      id="customSubjectInput"
+      placeholder="Type custom subject…"
+      style="display:none; margin-top:0.5em;"
+    >
+
     <input type="number" list="grades" name="addGrade" id="addGradeInput" placeholder="2">
     <datalist id="grades">
       <option value="1"></option>
@@ -31,28 +39,33 @@
       <option value="5"></option>
       <option value="6"></option>
     </datalist>
-    <button id="addSubject" type="submit">Add new Subject</button>
+
+    <button type="submit">Add new Subject</button>
   </form>
   <script>
     const grades = [];
 
-    const addSubjectFrom = document.getElementById('newSubjectForm');
+    const form = document.getElementById('newSubjectForm');
+    const subjectSelect = document.getElementById('subjectSelect');
+    const customInput = document.getElementById('customSubjectInput');
+    const gradeInput = document.getElementById('addGradeInput');
     const subjectsDiv = document.getElementById('subjectsDiv');
-    const newSubject = document.getElementById('addSubjectInput');
-    const newGrade = document.getElementById('addGradeInput');
 
-    addSubjectFrom.addEventListener('submit', (e) => {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const subject = newSubject.value;
-      const subjectGrade = newGrade.value;
+      const subject = (subjectSelect.value === 'custom');
+      const grade = parseFloat(gradeInput.value);
 
-      if (!subject || isNaN(subjectGrade)) {
-        alert('Please enter a valid subject or grade.')
+      if (!subject) {
+        alert('Please enter or select a subject.')
         return;
       }
+      if (isNaN(grade)) {
+        alert('Please enter a valid grade.');
+      }
 
-      grades.push({ subject: subject, grade: subjectGrade });
+      grades.push({ subject, grade });
 
       newSubject.value = '';
       newGrade.value = '';
